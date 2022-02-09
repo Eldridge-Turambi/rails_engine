@@ -459,6 +459,8 @@
           1,
           null,
           1,
+          null,
+          1,
           1,
           null,
           1,
@@ -487,8 +489,16 @@
           1,
           null
         ]
+      },
+      "/Users/richieturing/Turing/mod3/projects/rails-engine/app/serializers/merchant_serializer.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null
+        ]
       }
     },
-    "timestamp": 1644378884
+    "timestamp": 1644389437
   }
 }
