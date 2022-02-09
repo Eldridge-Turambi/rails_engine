@@ -298,7 +298,7 @@
           1,
           1,
           null,
-          4,
+          5,
           null,
           null
         ]
@@ -471,12 +471,33 @@
           3,
           null,
           null,
+          null,
+          1,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
           null
         ]
       },
       "/Users/richieturing/Turing/mod3/projects/rails-engine/app/controllers/api/v1/merchants_controller.rb": {
         "lines": [
           1,
+          null,
+          1,
+          1,
+          null,
           null,
           1,
           1,
@@ -502,6 +523,6 @@
         ]
       }
     },
-    "timestamp": 1644434079
+    "timestamp": 1644440955
   }
 }
