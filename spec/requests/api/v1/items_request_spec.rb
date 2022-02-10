@@ -36,7 +36,6 @@ RSpec.describe 'Items API' do
     item2 = merchant1.items.create!(name: 'name2', description: 'description2', unit_price: 200.0 )
     item3 = merchant1.items.create!(name: 'name3', description: 'description3', unit_price: 300.0 )
 
-
     get "/api/v1/items/#{item1.id}"
 
     expect(response).to be_successful
@@ -89,5 +88,33 @@ RSpec.describe 'Items API' do
     expect(response).to be_successful
     expect(item.name).to_not eq(previous_name)
     expect(item.name).to eq('mango juul pod')
+  end
+
+  it 'can destroy an item' do
+    # merchant1 = Merchant.create!(name: "merchant1")
+    # item1 = merchant1.items.create!(name: 'name1', description: 'description1', unit_price: 100.0 )
+    merchant1 = create(:merchant)
+    id = create(:item, merchant_id: merchant1.id).id
+
+    expect(Item.count).to eq(1)
+
+    delete "/api/v1/items/#{id}"
+
+    expect(response).to be_successful
+    expect(Item.count).to eq(0)
+    expect{Item.find(id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  it 'gets merchant data for given item ID' do
+    merchant1 = create(:merchant)
+
+    item1 = merchant1.items.create!(name: 'name1', description: 'description1', unit_price: 100.0 )
+
+    get "/api/v1/items/#{item1.id}/merchant"
+    parsed_merchant = JSON.parse(response.body, symbolize_names: true)
+
+    expect(parsed_merchant[:data][:id].to_i).to eq(merchant1.id)
+    expect(parsed_merchant[:data][:attributes][:name]).to eq(merchant1.name)
+    expect(item1.merchant_id).to eq(parsed_merchant[:data][:id].to_i)
   end
 end

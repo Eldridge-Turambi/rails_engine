@@ -9,11 +9,29 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def create
-    render json: ItemSerializer.new(Item.create!(item_params))
+    item = Item.new(item_params)
+    if item.save
+      render json: ItemSerializer.new(Item.create(item_params)), status: :created
+    else
+      render status: 404
+    end
   end
 
   def update
-    render json: ItemSerializer.new(Item.update(params[:id], item_params))
+    item = Item.find(params[:id])
+    if item.update(item_params)
+      render json: ItemSerializer.new(item)
+    else
+      render status: 404
+    end
+  end
+
+  def destroy
+    item = Item.find(params[:id])
+
+    if item.destroy
+      render status: :no_content
+    end
   end
 
   private

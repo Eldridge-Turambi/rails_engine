@@ -35,6 +35,7 @@ group :development, :test do
   gem 'pry'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -45,7 +46,6 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda-matchers'
 end
 
 
