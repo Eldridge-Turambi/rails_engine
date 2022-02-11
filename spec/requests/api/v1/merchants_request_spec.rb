@@ -71,14 +71,18 @@ RSpec.describe 'Merchants API' do
     end
   end
 
-  it 'finds all merchants which match a search term' do
-    merchant1 = create(:merchant)
-    merchant2 = create(:merchant)
-    merchant3 = create(:merchant)
-    merchant4 = create(:merchant)
-    merchant5 = create(:merchant)
-    item1 = create(:item, merchant_id: merchant1.id)
-    binding.pry
-    get "/api/v1/merchants/find_all?name="
+  it 'finds one merchants which match a search term' do
+    merchant1 = Merchant.create!(name: "james flex")
+    merchant2 = Merchant.create!(name: "renata flex")
+    merchant3 = Merchant.create!(name: "reggie thomas")
+    merchant4 = Merchant.create!(name: "juul pod")
+
+    get "/api/v1/merchants/find?name=flex"
+
+    expect(response).to be_successful
+
+
+    parsed_merchants = JSON.parse(response.body, symbolize_names: true)
+    expect(parsed_merchants[:data][:attributes][:name]).to eq(merchant1.name)
   end
 end
