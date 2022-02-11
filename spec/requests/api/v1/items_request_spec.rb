@@ -117,4 +117,26 @@ RSpec.describe 'Items API' do
     expect(parsed_merchant[:data][:attributes][:name]).to eq(merchant1.name)
     expect(item1.merchant_id).to eq(parsed_merchant[:data][:id].to_i)
   end
+
+  it 'finds all items that match a search term' do
+      merchant1 = create(:merchant)
+      item1 = merchant1.items.create!(name: 'mango juul pod', description: 'description1', unit_price: 100.0 )
+      item2 = merchant1.items.create!(name: 'mint juul pod', description: 'description1', unit_price: 100.0 )
+      item3 = merchant1.items.create!(name: 'esco bar', description: 'description1', unit_price: 100.0 )
+      item4 = merchant1.items.create!(name: 'bowflex', description: 'description1', unit_price: 100.0 )
+
+      get "/api/v1/items/find_all?name=juul"
+
+      expect(response).to be_successful
+
+      parsed_items = JSON.parse(response.body, symbolize_names: true)
+
+      parsed_items[:data].each do |item|
+        expect(item).to have_key(:attributes)
+        expect(item[:attributes]).to have_key(:name)
+        expect(item[:attributes][:name]).to be_a(String)
+      end
+      expect(parsed_items[:data][0][:attributes][:name]).to eq(item1.name)
+      expect(parsed_items[:data][1][:attributes][:name]).to eq(item2.name)
+  end
 end

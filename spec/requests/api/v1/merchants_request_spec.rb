@@ -53,7 +53,7 @@ RSpec.describe 'Merchants API' do
     get "/api/v1/merchants/#{merchant1.id}/items"
 
     parsed_merchant = JSON.parse(response.body, symbolize_names: true)
-    
+
     expect(response).to be_successful
 
     parsed_merchant[:data].each do |item|
@@ -69,5 +69,20 @@ RSpec.describe 'Merchants API' do
       expect(item[:attributes]).to have_key(:unit_price)
       expect(item[:attributes][:unit_price]).to be_a(Float)
     end
+  end
+
+  it 'finds one merchants which match a search term' do
+    merchant1 = Merchant.create!(name: "james flex")
+    merchant2 = Merchant.create!(name: "renata flex")
+    merchant3 = Merchant.create!(name: "reggie thomas")
+    merchant4 = Merchant.create!(name: "juul pod")
+
+    get "/api/v1/merchants/find?name=flex"
+
+    expect(response).to be_successful
+
+
+    parsed_merchants = JSON.parse(response.body, symbolize_names: true)
+    expect(parsed_merchants[:data][:attributes][:name]).to eq(merchant1.name)
   end
 end
